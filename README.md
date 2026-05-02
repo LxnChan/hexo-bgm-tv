@@ -1,6 +1,10 @@
 # hexo-bgm-tv
 
+![Sample](https://github.com/user-attachments/assets/29f8438b-ac35-49c2-ab8b-026dcedc1ce5)
+
 基于 bgm.tv API 生成 Hexo 个人追番页的插件。实现思路参考了 [HCLonely/hexo-bilibili-bangumi](https://github.com/HCLonely/hexo-bilibili-bangumi)，但数据源切换为[bgm.tv](https://bgm.tv)
+
+示例页：[我的追番](https://lxnchan.cn/bgm.tv/index.html)
 
 ## 功能
 
