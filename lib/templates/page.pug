@@ -1,0 +1,244 @@
+if quote
+  blockquote.bgm-quote
+    p!= quote
+
+.bgm-tabs
+  each section, index in sections
+    button.bgm-tab(
+      id=`bgm-tab-${index}`
+      type="button"
+      data-target=`bgm-panel-${index}`
+    ) #{section.label} (#{section.items.length})
+
+.bgm-meta
+  if meta.username
+    span
+      | 用户：
+      a(href=`https://bgm.tv/anime/list/${encodeURIComponent(meta.username)}` target="_blank" rel="noopener noreferrer")= meta.username
+  if meta.fetchedAtDisplay
+    span 数据抓取时间：#{meta.fetchedAtDisplay}
+
+mixin collectionList(items, emptyText)
+  if items.length
+    each item in items
+      article.bgm-card
+        .bgm-cover
+          a(href=item.url target="_blank" rel="noopener noreferrer")
+            if item.cover
+              img(src=item.cover loading=lazyload ? 'lazy' : 'eager' referrerpolicy="no-referrer" alt=item.title)
+            else
+              .bgm-cover-placeholder No Cover
+        .bgm-content
+          h3.bgm-title
+            a(href=item.url target="_blank" rel="noopener noreferrer")= item.title
+            if item.originalTitle && item.originalTitle !== item.title
+              small= item.originalTitle
+          .bgm-stats
+            if item.totalEpisodes
+              span 全 #{item.totalEpisodes} 话
+            if item.collectionTotal
+              span #{item.collectionTotal} 收藏
+            if item.rank
+              span Rank #{item.rank}
+            if item.score
+              span 站评 #{item.score}
+          if item.tags.length
+            .bgm-tags
+              each tag in item.tags
+                span.bgm-tag= tag
+          if progress
+            .bgm-progress-row
+              span.bgm-progress-label 进度 #{item.watchedEpisodes}/#{item.totalEpisodes || '?'}
+              .bgm-progress
+                .bgm-progress-bar(style=`width:${item.progressPercent}%`)
+          if item.summary
+            p.bgm-summary= item.summary
+          if item.myComment
+            .bgm-comment= item.myComment
+  else
+    .bgm-empty= emptyText
+
+.bgm-panels
+  each section, index in sections
+    section.bgm-panel(id=`bgm-panel-${index}`)
+      +collectionList(section.items, section.emptyText)
+
+style.
+  .bgm-quote {
+    margin: 1rem 0 1.25rem;
+    padding: 0.8rem 1rem;
+    border-left: 4px solid #ff6b6b;
+    background: linear-gradient(90deg, rgba(255, 107, 107, 0.08), rgba(255, 255, 255, 0));
+  }
+  .bgm-tabs {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 0.75rem;
+  }
+  .bgm-tab {
+    border: 1px solid #e3e8ef;
+    background: #fff;
+    color: #334155;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .bgm-tab.is-active {
+    background: #222831;
+    color: #fff;
+    border-color: #222831;
+  }
+  .bgm-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+  }
+  .bgm-panel {
+    display: none;
+  }
+  .bgm-panel.is-active {
+    display: block;
+  }
+  .bgm-card {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .bgm-cover img,
+  .bgm-cover-placeholder {
+    width: 132px;
+    height: 176px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+  }
+  .bgm-content {
+    min-width: 0;
+  }
+  .bgm-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+  .bgm-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .bgm-title small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: normal;
+  }
+  .bgm-stats,
+  .bgm-footer {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+    color: #475569;
+  }
+  .bgm-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .bgm-tag {
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: #fff3cd;
+    color: #8a5a00;
+    font-size: 0.8rem;
+  }
+  .bgm-progress-row {
+    margin: 0.8rem 0;
+  }
+  .bgm-progress-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    color: #475569;
+  }
+  .bgm-progress {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+  }
+  .bgm-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #f59e0b);
+  }
+  .bgm-summary {
+    margin: 0.8rem 0;
+    color: #334155;
+    line-height: 1.75;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .bgm-comment {
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #334155;
+    line-height: 1.7;
+  }
+  .bgm-empty {
+    padding: 1rem 0;
+    color: #64748b;
+  }
+  @media (max-width: 640px) {
+    .bgm-card {
+      grid-template-columns: 96px 1fr;
+    }
+    .bgm-cover img,
+    .bgm-cover-placeholder {
+      width: 96px;
+      height: 128px;
+      border-radius: 10px;
+    }
+    .bgm-title {
+      font-size: 1.08rem;
+    }
+  }
+
+script.
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.bgm-tab'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.bgm-panel'));
+    var defaultIndex = #{show >= 0 && show < sections.length ? show : 2};
+
+    function activate(index) {
+      tabs.forEach(function (tab, tabIndex) {
+        tab.classList.toggle('is-active', tabIndex === index);
+      });
+      panels.forEach(function (panel, panelIndex) {
+        panel.classList.toggle('is-active', panelIndex === index);
+      });
+    }
+
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener('click', function () {
+        activate(index);
+      });
+    });
+
+    activate(defaultIndex);
+  }());
