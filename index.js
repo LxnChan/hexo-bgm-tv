@@ -77,7 +77,8 @@ async function updateCollections(hexo, options = {}) {
     userAgent: config.userAgent,
     pageSize: config.pageSize,
     timeout: config.timeout,
-    progress: options.progress ?? config.progress
+    progress: options.progress ?? config.progress,
+    proxy: config.proxy
   });
 }
 

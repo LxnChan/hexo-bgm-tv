@@ -29,6 +29,7 @@ bgm:
   username: [your_bangumi_username_or_id]
   accessToken:
   userAgent: 'lxnchan/hexo-bgm-tv (https://github.com/LxnChan/hexo-bgm-tv)'
+  proxy: ''
   path: bgm.tv/index.html
   title: 追番列表
   quote: '生命不息，追番不止。'
@@ -46,6 +47,7 @@ bgm:
 - `username`: Bangumi 用户名或用户 ID，必填
 - `accessToken`: 可选。需要读取私密收藏时再填
 - `userAgent`: 建议必填。Bangumi 官方建议使用能标识开发者和项目的 UA
+- `proxy`: 可选。反代服务地址，如 `https://bgm-tv.lxn.workers.dev`。留空或不填则直连 `api.bgm.tv`。填写后 API 请求会走 `{proxy}/api/v0/...`
 - `path`: 生成页面路径，默认 `bgm.tv/index.html`
 - `show`: 默认显示的 tab，默认 `2`，即 `看过`。也可填 `wantWatch`、`watching`、`watched`、`onHold`、`dropped`
 - `autoUpdate`: 是否在 `hexo generate` / `hexo server` 前自动同步，默认 `true`
