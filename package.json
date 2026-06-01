@@ -1,6 +1,6 @@
 {
   "name": "hexo-bgm-tv",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Hexo plugin for generating a personal Bangumi anime collection page",
   "main": "index.js",
   "keywords": [
